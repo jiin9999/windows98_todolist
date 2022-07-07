@@ -1,5 +1,5 @@
 # windows98_todolist
-> 윈도우 98 컨셉의 TODO LIST 웹사이트입니다.
+> 윈도우 98 컨셉으로 구현해 본 TODO LIST 웹사이트입니다.
 
 <p align="center">
   <br>
@@ -20,9 +20,9 @@ index.html을 통해 실행 해주세요.
 
 ## 기술 스택
 
-|  HTML5  |  CSS    | JavaScript | 
-| :-----: | :-----: | :--------: | 
-| ![html] | ![css]  | ![js]      | 
+|  HTML5  |   CSS   |   JavaScript  | 
+| :-----: | :-----: | :-----------: | 
+| ![html5] | ![css]  | ![javascript] | 
 
 <br>
 
@@ -51,6 +51,6 @@ index.html을 통해 실행 해주세요.
 <br>
 
 <!-- Stack Icon Refernces -->
-[html]: /assets/readme/html.svg
+[html5]: /assets/readme/html5.svg
 [css]: /assets/readme/css.svg
-[js]: /assets/readme/js.svg
+[javascript]: /assets/readme/javascript.svg
