@@ -20,9 +20,9 @@ index.html을 통해 실행 해주세요.
 
 ## 기술 스택
 
-| JavaScript | TypeScript |  React   |  Node   |
-| :--------: | :--------: | :------: | :-----: |
-|   ![js]    |   ![ts]    | ![react] | ![node] |
+|  HTML5  |  CSS    | JavaScript | 
+| :-----: | :-----: | :--------: | 
+| ![html] | ![css]  | ![js]      | 
 
 <br>
 
@@ -51,8 +51,6 @@ index.html을 통해 실행 해주세요.
 <br>
 
 <!-- Stack Icon Refernces -->
-
-[js]: /images/stack/javascript.svg
-[ts]: /images/stack/typescript.svg
-[react]: /images/stack/react.svg
-[node]: /images/stack/node.svg
+[html]: /assets/readme/html.svg
+[css]: /assets/readme/css.svg
+[js]: /assets/readme/js.svg
