@@ -3,7 +3,7 @@
 
 <p align="center">
   <br>
-  <img src="./assets/asdf.jpg">
+  <img src="./assets/readme/example.PNG">
   <br>
 <p>
 
