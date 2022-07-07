@@ -8,13 +8,15 @@
 <p>
 
 ## 프로젝트 소개
-- - -
-<p align="center">
+  
+<p align="justify">
 프로젝트 개요 / 동기
 </p>
+<br>
 
 ## 환경 설정
 index.html을 통해 실행 해주세요.
+<br>
 
 ## 기술 스택
 
@@ -36,7 +38,7 @@ index.html을 통해 실행 해주세요.
 
 <br>
 
-## 배운 점 & 아쉬운 점
+## 사용 예제
 
 <p align="justify">
 
@@ -46,6 +48,7 @@ index.html을 통해 실행 해주세요.
 
 ## 라이센스
 
+<br>
 
 <!-- Stack Icon Refernces -->
 
