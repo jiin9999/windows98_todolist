@@ -2,8 +2,8 @@
 > 윈도우 98 컨셉으로 구현해 본 TODO LIST 웹사이트입니다.
 
 <p align="center">
-  <br>
   <img src="./assets/readme/example.PNG">
+  <br>
   <br>
 <p>
 
