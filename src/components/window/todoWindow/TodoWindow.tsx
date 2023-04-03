@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import '98.css';
 import Draggable, { DraggableData } from 'react-draggable';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { db } from '../../../firebase-config';
+import { useSelector } from 'react-redux';
+import { selectUserName } from '../../../store/userSlice';
 
-import { fetchTodos, addTodo, updateTodo, deleteTodo } from '../../../api/todoAPI';
 import {
     Window,
     WindowHeader,
@@ -34,19 +37,30 @@ interface Todo {
 }
 
 export default function TodoWindow({ setVisibleTodo }: TodoWindowProps) {
+    const userName = useSelector(selectUserName);
     const [todos, setTodos] = useState<string[]>([]);
     const [, setPosition] = useState<Position>({ x: 0, y: 0 });
     const [todoInput, setTodoInput] = useState('');
-
     const [editingIndex, setEditingIndex] = useState<number | null>(null);
     const [editInputValue, setEditInputValue] = useState('');
 
+    const callTodos = async (userName: string) => {
+        const docRef = doc(db, 'todos', userName);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            console.log(data.list);
+            return data.list;
+        } else {
+            console.log('No such document!');
+            return false;
+        }
+    };
+
     useEffect(() => {
-        const fetchData = async () => {
-            const data = await fetchTodos();
-            setTodos(data);
-        };
-        fetchData();
+        (async () => {
+            setTodos(await callTodos(userName));
+        })();
     }, []);
 
     const handleUpdateClick = (index: number) => {
@@ -56,14 +70,19 @@ export default function TodoWindow({ setVisibleTodo }: TodoWindowProps) {
 
     const handleSaveClick = async () => {
         if (editingIndex !== null) {
-            const updatedTodo = await updateTodo(editingIndex, editInputValue);
-            if (updatedTodo) {
-                const newTodos = [...todos];
-                newTodos[editingIndex] = updatedTodo.data;
-                setTodos(newTodos);
-                setEditingIndex(null);
-                setEditInputValue('');
-            }
+            // Update local state
+            const newTodos = [...todos];
+            newTodos[editingIndex] = editInputValue;
+            setTodos(newTodos);
+
+            // Update Firestore
+            await setDoc(doc(db, 'todos', userName), {
+                list: newTodos,
+            });
+
+            // Reset editing state
+            setEditingIndex(null);
+            setEditInputValue('');
         }
     };
 
@@ -77,19 +96,27 @@ export default function TodoWindow({ setVisibleTodo }: TodoWindowProps) {
     };
 
     const handleDeleteClick = async (index: number) => {
-        await deleteTodo(index);
-        setTodos(todos.filter((_, i) => i !== index));
+        // Update the local state
+        const updatedTodos = todos.filter((_, i) => i !== index);
+        setTodos(updatedTodos);
+        // Update Firestore
+        await setDoc(doc(db, 'todos', userName), {
+            list: updatedTodos,
+        });
     };
 
     const addTodoHandler = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (todoInput !== '') {
-            const newTodo = await addTodo(todoInput);
-            if (newTodo) {
-                setTodos([...todos, newTodo.data]);
-                setTodoInput('');
-            }
-        }
+        setTodos((prevTodos) => {
+            const newTodos = [...prevTodos, todoInput];
+            // Update Firestore after state is updated
+            (async () => {
+                await setDoc(doc(db, 'todos', userName), {
+                    list: newTodos,
+                });
+            })();
+            return newTodos;
+        });
     };
 
     const trackPos = (data: DraggableData) => {
