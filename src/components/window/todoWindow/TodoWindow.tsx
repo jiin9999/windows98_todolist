@@ -43,17 +43,17 @@ export default function TodoWindow({ setVisibleTodo }: TodoWindowProps) {
     const [todoInput, setTodoInput] = useState('');
     const [editingIndex, setEditingIndex] = useState<number | null>(null);
     const [editInputValue, setEditInputValue] = useState('');
+    const docRef = doc(db, 'todos', userName);
 
     const callTodos = async (userName: string) => {
-        const docRef = doc(db, 'todos', userName);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
             const data = docSnap.data();
-            console.log(data.list);
             return data.list;
         } else {
-            console.log('No such document!');
-            return false;
+            const newTodoList = { list: [] };
+            await setDoc(docRef, newTodoList);
+            return newTodoList.list;
         }
     };
 
@@ -70,17 +70,12 @@ export default function TodoWindow({ setVisibleTodo }: TodoWindowProps) {
 
     const handleSaveClick = async () => {
         if (editingIndex !== null) {
-            // Update local state
             const newTodos = [...todos];
             newTodos[editingIndex] = editInputValue;
             setTodos(newTodos);
-
-            // Update Firestore
-            await setDoc(doc(db, 'todos', userName), {
+            await setDoc(docRef, {
                 list: newTodos,
             });
-
-            // Reset editing state
             setEditingIndex(null);
             setEditInputValue('');
         }
@@ -96,11 +91,9 @@ export default function TodoWindow({ setVisibleTodo }: TodoWindowProps) {
     };
 
     const handleDeleteClick = async (index: number) => {
-        // Update the local state
         const updatedTodos = todos.filter((_, i) => i !== index);
         setTodos(updatedTodos);
-        // Update Firestore
-        await setDoc(doc(db, 'todos', userName), {
+        await setDoc(docRef, {
             list: updatedTodos,
         });
     };
@@ -109,14 +102,14 @@ export default function TodoWindow({ setVisibleTodo }: TodoWindowProps) {
         e.preventDefault();
         setTodos((prevTodos) => {
             const newTodos = [...prevTodos, todoInput];
-            // Update Firestore after state is updated
             (async () => {
-                await setDoc(doc(db, 'todos', userName), {
+                await setDoc(docRef, {
                     list: newTodos,
                 });
             })();
             return newTodos;
         });
+        setTodoInput('');
     };
 
     const trackPos = (data: DraggableData) => {
@@ -139,7 +132,7 @@ export default function TodoWindow({ setVisibleTodo }: TodoWindowProps) {
                     </div>
                 </WindowHeader>
                 <WindowBody className="window-body">
-                    <p>Todos,</p>
+                    <p>{userName}'s Todos</p>
                     <InputForm onSubmit={addTodoHandler}>
                         <InputBox className="field-row">
                             <TodoInput

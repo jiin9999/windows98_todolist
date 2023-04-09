@@ -57,8 +57,8 @@ const LoginForm = styled.form`
     grid-row: 3;
 `;
 
-interface LoginProps {
-    setIsLogin: React.Dispatch<React.SetStateAction<boolean>>;
+export interface LoginProps {
+    setIsLogin: (loggedIn: boolean) => void;
 }
 
 export default function Login({ setIsLogin }: LoginProps) {
@@ -72,7 +72,7 @@ export default function Login({ setIsLogin }: LoginProps) {
     const onSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const inputValue = (e.target as HTMLFormElement).elements.namedItem('userName') as HTMLInputElement;
-        dispatch(setUserName(inputValue.value)); // Access the input's value using inputValue.value
+        dispatch(setUserName(inputValue.value));
         setIsLogin(true);
     };
 
@@ -84,7 +84,6 @@ export default function Login({ setIsLogin }: LoginProps) {
                     <div>
                         <div className="title-bar-controls">
                             <button aria-label="Help"></button>
-                            <button aria-label="Close"></button>
                         </div>
                     </div>
                 </LoginHeader>
