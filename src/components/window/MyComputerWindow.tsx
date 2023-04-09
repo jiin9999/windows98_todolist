@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import '98.css';
 import styled from 'styled-components';
 import Draggable from 'react-draggable';
-import { useSelector } from 'react-redux';
-import { selectUserName } from '../../store/userSlice';
+import { selectUserName, resetUser } from '../../store/userSlice';
 import { Resizable } from 're-resizable';
+import { useSelector, useDispatch } from 'react-redux';
+import { setIsLogin } from '../../store/loginSlice';
+import { db } from '../../firebase-config';
+import { doc, deleteDoc } from 'firebase/firestore';
 
 interface Props {
     setVisibleMyComputer: React.Dispatch<React.SetStateAction<boolean>>;
@@ -36,13 +39,48 @@ const Hello = styled.p`
 `;
 
 const WindowBody = styled.div`
-    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-direction: center;
     height: 100%;
     width: 100%;
 `;
 
+const ComputerIconSet = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 500px;
+    height: 100px;
+    margin-top: 10px;
+`;
+
+const ComputerBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+`;
+
+const Icon = styled.img`
+    width: 50px;
+    height: 50px;
+`;
+
+const IconName = styled.span`
+    font-weight: 600;
+    font-size: 14px;
+`;
+
 export default function MyComputerWindow({ setVisibleMyComputer }: Props) {
+    const dispatch = useDispatch();
     const userName = useSelector(selectUserName);
+    const docRef = doc(db, 'todos', userName);
     const [, setPosition] = useState<Position>({ x: 0, y: 0 });
     const trackPos = (data: { x: number; y: number }) => {
         setPosition({ x: data.x, y: data.y });
@@ -50,6 +88,22 @@ export default function MyComputerWindow({ setVisibleMyComputer }: Props) {
 
     const closeButton = () => {
         setVisibleMyComputer(false);
+    };
+
+    const logout = () => {
+        dispatch(resetUser());
+        dispatch(setIsLogin(false));
+    };
+
+    const deleteData = async () => {
+        console.log(userName);
+        try {
+            await deleteDoc(docRef);
+        } catch (error) {
+            console.error('Error deleting document: ', error);
+        }
+        dispatch(resetUser());
+        dispatch(setIsLogin(false));
     };
 
     return (
@@ -63,10 +117,10 @@ export default function MyComputerWindow({ setVisibleMyComputer }: Props) {
                         </div>
                     </div>
                 </WindowHeader>
-                <Resizable
+                {/* <Resizable
                     defaultSize={{ width: 500, height: 200 }}
-                    minWidth={300}
-                    minHeight={100}
+                    minWidth={500}
+                    minHeight={200}
                     enable={{
                         right: true,
                         bottom: true,
@@ -75,11 +129,25 @@ export default function MyComputerWindow({ setVisibleMyComputer }: Props) {
                         right: <span className="resize-handle right" />,
                         bottom: <span className="resize-handle bottom" />,
                     }}
-                >
-                    <div className="window-body">
-                        <Hello>Hello, {userName}</Hello>
-                    </div>
-                </Resizable>
+                > */}
+                <WindowBody className="window-body">
+                    <Hello>Hello, {userName}</Hello>
+                    <ComputerIconSet>
+                        <ComputerBox onClick={logout}>
+                            <Icon src="img/logout.png" alt="logout icon" />
+                            <IconName>Logout</IconName>
+                        </ComputerBox>
+                        <ComputerBox onClick={deleteData}>
+                            <Icon src="img/deleteData.png" alt="delete Data icon" />
+                            <IconName>Delete Data</IconName>
+                        </ComputerBox>
+                        <ComputerBox>
+                            <Icon src="img/madeBy.png" alt="made by icon" />
+                            <IconName>Made By</IconName>
+                        </ComputerBox>
+                    </ComputerIconSet>
+                </WindowBody>
+                {/* </Resizable> */}
             </Window>
         </Draggable>
     );
