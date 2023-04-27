@@ -5,8 +5,10 @@ import Footer from './components/Footer';
 import './App.css';
 import { setIsLogin } from './store/loginSlice';
 
+type LoginState = { login: { isLogin: boolean } }
+
 function App(): JSX.Element {
-    const isLogin = useSelector((state: { login: { isLogin: boolean } }) => state.login.isLogin);
+    const isLogin = useSelector((state: LoginState) => state.login.isLogin);
     const dispatch = useDispatch();
 
     const handleLogin = (loggedIn: boolean) => {
