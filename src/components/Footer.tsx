@@ -33,7 +33,7 @@ const StartButtonContainer = styled.div`
     margin-right: 6px;
 `;
 
-const StartButton = styled.img`
+const StartImage = styled.img`
     width: 45px;
     height: 14px;
 `;
@@ -64,7 +64,7 @@ export default function Footer() {
     return (
         <FooterBar>
             <StartButtonContainer>
-                <StartButton src="./img/start.png" />
+                <StartImage src="./img/start.png" />
             </StartButtonContainer>
             <TimeBar>
                 {isAM ? '오전' : '오후'} {hour % 12}:{minute.toString().padStart(2, '0')}
