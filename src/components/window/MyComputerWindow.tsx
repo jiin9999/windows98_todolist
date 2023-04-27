@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '98.css';
 import styled from 'styled-components';
 import Draggable from 'react-draggable';
@@ -86,6 +86,13 @@ export default function MyComputerWindow({ setVisibleMyComputer }: Props) {
         setPosition({ x: data.x, y: data.y });
     };
 
+    
+    const IMAGE_PATH = {
+      logOut: "img/logout.png",
+      deleteData: "img/deleteData.png",
+      madeBy: "img/madeBy.png"
+    }
+
     const closeButton = () => {
         setVisibleMyComputer(false);
     };
@@ -134,15 +141,15 @@ export default function MyComputerWindow({ setVisibleMyComputer }: Props) {
                     <Hello>Hello, {userName}</Hello>
                     <ComputerIconSet>
                         <ComputerBox onClick={logout}>
-                            <Icon src="img/logout.png" alt="logout icon" />
+                            <Icon src={IMAGE_PATH.logOut} alt="logout icon" />
                             <IconName>Logout</IconName>
                         </ComputerBox>
                         <ComputerBox onClick={deleteData}>
-                            <Icon src="img/deleteData.png" alt="delete Data icon" />
+                            <Icon src={IMAGE_PATH.deleteData} alt="delete Data icon" />
                             <IconName>Delete Data</IconName>
                         </ComputerBox>
                         <ComputerBox>
-                            <Icon src="img/madeBy.png" alt="made by icon" />
+                            <Icon src={IMAGE_PATH.madeBy} alt="made by icon" />
                             <IconName>Made By</IconName>
                         </ComputerBox>
                     </ComputerIconSet>

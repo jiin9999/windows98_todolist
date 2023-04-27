@@ -3,22 +3,22 @@ import styled from 'styled-components';
 
 const FooterBar = styled.footer`
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
-    padding: 2px;
-    box-shadow: inset 1px 0 #fff;
     background-color: silver;
+    position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
+    padding: 2px;
+    z-index: 2;
     border-top: 1px solid #f4f4f4;
     border-bottom: 1px solid #4e4e4e;
-    position: fixed;
-    z-index: 2;
+    box-shadow: inset 1px 0 #fff;
 `;
 
-const StartBox = styled.div`
+const StartButtonContainer = styled.div`
     width: 50px;
+    color: #000;
     margin-left: 2px;
     margin-bottom: 2px;
     vertical-align: middle;
@@ -31,20 +31,19 @@ const StartBox = styled.div`
     box-shadow: inset 1px 1px #dfdfdf, 1px 0 #000, 0 1px #000, 1px 1px #000;
     min-width: 59px;
     margin-right: 6px;
-    color: #000;
 `;
 
-const Start = styled.img`
+const StartButton = styled.img`
     width: 45px;
     height: 14px;
 `;
 
 const TimeBar = styled.div`
     width: 100px;
+    line-height: 22px;
     padding: 0 10px;
     border-top: 1px solid gray;
     border-left: 1px solid gray;
-    line-height: 22px;
     border-right: 1px solid #fff;
     border-bottom: 1px solid #fff;
     font-weight: 400;
@@ -54,7 +53,7 @@ export default function Footer() {
     const [date, setDate] = useState(() => new Date());
 
     useEffect(() => {
-        const timeId = setInterval(() => setDate(new Date()), 60000);
+        const timeId = setInterval(() => setDate(new Date()), 60 * 1000);
         return () => clearInterval(timeId);
     }, []);
 
@@ -64,9 +63,9 @@ export default function Footer() {
 
     return (
         <FooterBar>
-            <StartBox>
-                <Start src="./img/start.png" />
-            </StartBox>
+            <StartButtonContainer>
+                <StartButton src="./img/start.png" />
+            </StartButtonContainer>
             <TimeBar>
                 {isAM ? '오전' : '오후'} {hour % 12}:{minute.toString().padStart(2, '0')}
             </TimeBar>
