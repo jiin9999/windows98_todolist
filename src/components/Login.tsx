@@ -20,9 +20,10 @@ const LoginHeader = styled.div`
     display: flex;
     align-items: center;
     cursor: default;
+    cursor: grab;
 `;
 
-const LoginArea = styled.div`
+const LoginDiv = styled.div`
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
     grid-template-rows: 50px 50px 50px;
@@ -47,6 +48,7 @@ const LoginIcon = styled.img`
     margin-left: 20px;
     grid-column: 1;
     grid-row: 1/3;
+    user-select: none;
 `;
 
 const LoginForm = styled.form`
@@ -88,7 +90,7 @@ export default function Login({ setIsLogin }: LoginProps) {
                     </div>
                 </LoginHeader>
 
-                <LoginArea>
+                <LoginDiv>
                     <LoginIcon src="img/login_icon.png" />
                     <LoginP1>
                         Type a name to identify yourself to Windows. <br />
@@ -110,7 +112,7 @@ export default function Login({ setIsLogin }: LoginProps) {
                         />
                         <button>Log in</button>
                     </LoginForm>
-                </LoginArea>
+                </LoginDiv>
             </Window>
         </Draggable>
     );
