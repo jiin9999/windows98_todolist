@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import '98.css';
-import Draggable, { DraggableData } from 'react-draggable';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import Draggable from 'react-draggable';
+import { useDraggable } from '../../../hooks/useDraggable';
+import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../../../firebase-config';
 import { useSelector } from 'react-redux';
 import { selectUserName } from '../../../store/userSlice';
@@ -19,14 +20,10 @@ import {
     ButtonBox,
     EditInput,
 } from './TodoWindowStyle';
+import { callTodos } from '../../../api/todoAPI';
 
 interface TodoWindowProps {
     setVisibleTodo: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-interface Position {
-    x: number;
-    y: number;
 }
 
 interface Todo {
@@ -38,29 +35,13 @@ interface Todo {
 export default function TodoWindow({ setVisibleTodo }: TodoWindowProps) {
     const userName = useSelector(selectUserName);
     const [todos, setTodos] = useState<string[]>([]);
-    const [, setPosition] = useState<Position>({ x: 0, y: 0 });
+    const { trackPos } = useDraggable({ x: 0, y: 0 });
     const [todoInput, setTodoInput] = useState('');
     const [editingIndex, setEditingIndex] = useState<number | null>(null);
     const [editInputValue, setEditInputValue] = useState('');
     const docRef = doc(db, 'todos', userName);
 
-    const callTodos = async (userName: string) => {
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-            const data = docSnap.data();
-            return data.list;
-        } else {
-            const newTodoList = { list: [] };
-            await setDoc(docRef, newTodoList);
-            return newTodoList.list;
-        }
-    };
-
     useEffect(() => {
-        // (async () => {
-        //     setTodos(await callTodos(userName));
-        // })();
-
         callTodos(userName).then(setTodos);
     }, []);
 
@@ -113,16 +94,12 @@ export default function TodoWindow({ setVisibleTodo }: TodoWindowProps) {
         setTodoInput('');
     };
 
-    const trackPos = (data: DraggableData) => {
-        setPosition({ x: data.x, y: data.y });
-    };
-
     const closeButton = () => {
         setVisibleTodo(false);
     };
 
     return (
-        <Draggable handle=".title-bar" onDrag={(e, data) => trackPos(data)}>
+        <Draggable handle=".title-bar" onDrag={trackPos}>
             <Window className="window">
                 <WindowHeader className="title-bar">
                     <div className="title-bar-text">Todos</div>

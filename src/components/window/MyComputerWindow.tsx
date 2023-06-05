@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import '98.css';
 import styled from 'styled-components';
+import { Window, WindowHeader } from './windowStyle';
 import Draggable from 'react-draggable';
+import { useDraggable } from '../../hooks/useDraggable';
 import { selectUserName, resetUser } from '../../store/userSlice';
-import { Resizable } from 're-resizable';
 import { useSelector, useDispatch } from 'react-redux';
 import { setIsLogin } from '../../store/loginSlice';
 import { db } from '../../firebase-config';
@@ -17,21 +18,6 @@ interface Position {
     x: number;
     y: number;
 }
-
-const Window = styled.div`
-    left: 40%;
-    top: 40%;
-    text-align: center;
-    position: absolute;
-`;
-
-const WindowHeader = styled.div`
-    height: 20px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    cursor: default;
-`;
 
 const Hello = styled.p`
     padding-top: 5px;
@@ -81,17 +67,13 @@ export default function MyComputerWindow({ setVisibleMyComputer }: Props) {
     const dispatch = useDispatch();
     const userName = useSelector(selectUserName);
     const docRef = doc(db, 'todos', userName);
-    const [, setPosition] = useState<Position>({ x: 0, y: 0 });
-    const trackPos = (data: { x: number; y: number }) => {
-        setPosition({ x: data.x, y: data.y });
-    };
+    const { trackPos } = useDraggable({ x: 0, y: 0 });
 
-    
     const IMAGE_PATH = {
-      logOut: "img/logout.png",
-      deleteData: "img/deleteData.png",
-      madeBy: "img/madeBy.png"
-    }
+        logOut: 'img/logout.png',
+        deleteData: 'img/deleteData.png',
+        madeBy: 'img/madeBy.png',
+    };
 
     const closeButton = () => {
         setVisibleMyComputer(false);
@@ -114,7 +96,7 @@ export default function MyComputerWindow({ setVisibleMyComputer }: Props) {
     };
 
     return (
-        <Draggable handle=".title-bar" onDrag={(e, data) => trackPos(data)}>
+        <Draggable handle=".title-bar" onDrag={trackPos}>
             <Window className="window">
                 <WindowHeader className="title-bar">
                     <div className="title-bar-text">My Computer</div>
@@ -124,19 +106,6 @@ export default function MyComputerWindow({ setVisibleMyComputer }: Props) {
                         </div>
                     </div>
                 </WindowHeader>
-                {/* <Resizable
-                    defaultSize={{ width: 500, height: 200 }}
-                    minWidth={500}
-                    minHeight={200}
-                    enable={{
-                        right: true,
-                        bottom: true,
-                    }}
-                    handleComponent={{
-                        right: <span className="resize-handle right" />,
-                        bottom: <span className="resize-handle bottom" />,
-                    }}
-                > */}
                 <WindowBody className="window-body">
                     <Hello>Hello, {userName}</Hello>
                     <ComputerIconSet>

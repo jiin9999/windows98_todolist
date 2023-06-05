@@ -6,7 +6,7 @@ import { selectUserName } from '../store/userSlice';
 const userName = useSelector(selectUserName);
 const docRef = doc(db, 'todos', userName);
 
-const callTodos = async (userName: string) => {
+export const callTodos = async (userName: string) => {
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
         const data = docSnap.data();
