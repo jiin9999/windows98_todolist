@@ -14,7 +14,8 @@ const IconBox = styled.div`
     justify-content: space-between;
     align-items: center;
     width: 100px;
-    height: 450px;
+    height: 330px;
+    // height: 450px; (컴포넌트 4개일 때)
     margin: 10px 0 0 15px;
 `;
 
@@ -32,7 +33,7 @@ export default function IconSet() {
             <Todo setVisibleTodo={setVisibleTodo} />
             {visibleTodo && <TodoWindow setVisibleTodo={setVisibleTodo} />}
 
-            <Clock />
+            {/* <Clock /> */}
 
             <Weather setVisibleWeather={setVisibleWeather} />
             {visibleWeather && <WeatherWindow setVisibleWeather={setVisibleWeather} />}

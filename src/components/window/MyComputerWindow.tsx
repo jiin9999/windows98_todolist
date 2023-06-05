@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import '98.css';
 import styled from 'styled-components';
 import { Window, WindowHeader } from './windowStyle';
@@ -9,15 +8,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setIsLogin } from '../../store/loginSlice';
 import { db } from '../../firebase-config';
 import { doc, deleteDoc } from 'firebase/firestore';
-
-interface Props {
-    setVisibleMyComputer: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-interface Position {
-    x: number;
-    y: number;
-}
 
 const Hello = styled.p`
     padding-top: 5px;
@@ -36,7 +26,8 @@ const WindowBody = styled.div`
 const ComputerIconSet = styled.div`
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
+    //justify-content: space-between; (컴포넌트가 3개일때))
     align-items: center;
     width: 500px;
     height: 100px;
@@ -62,6 +53,10 @@ const IconName = styled.span`
     font-weight: 600;
     font-size: 14px;
 `;
+
+interface Props {
+    setVisibleMyComputer: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 export default function MyComputerWindow({ setVisibleMyComputer }: Props) {
     const dispatch = useDispatch();
@@ -117,10 +112,10 @@ export default function MyComputerWindow({ setVisibleMyComputer }: Props) {
                             <Icon src={IMAGE_PATH.deleteData} alt="delete Data icon" />
                             <IconName>Delete Data</IconName>
                         </ComputerBox>
-                        <ComputerBox>
+                        {/* <ComputerBox>
                             <Icon src={IMAGE_PATH.madeBy} alt="made by icon" />
                             <IconName>Made By</IconName>
-                        </ComputerBox>
+                        </ComputerBox> */}
                     </ComputerIconSet>
                 </WindowBody>
                 {/* </Resizable> */}
