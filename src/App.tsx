@@ -4,11 +4,10 @@ import IconSet from './components/IconSet';
 import Footer from './components/Footer';
 import './App.css';
 import { setIsLogin } from './store/loginSlice';
+import { RootState } from './store/store'; // RootState import
 
-type LoginState = { login: { isLogin: boolean } }
-
-function App(): JSX.Element {
-    const isLogin = useSelector((state: LoginState) => state.login.isLogin);
+export default function App() {
+    const isLogin = useSelector((state: RootState) => state.login);
     const dispatch = useDispatch();
 
     const handleLogin = (loggedIn: boolean) => {
@@ -22,5 +21,3 @@ function App(): JSX.Element {
         </>
     );
 }
-
-export default App;

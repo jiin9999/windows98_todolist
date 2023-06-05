@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import '98.css';
 import styled from 'styled-components';
-import Draggable, { DraggableEventHandler } from 'react-draggable';
+import Draggable from 'react-draggable';
+import { useDraggable } from '../hooks/useDraggable';
 import { useDispatch } from 'react-redux';
 import { setUserName } from '../store/userSlice';
 
@@ -64,23 +65,23 @@ export interface LoginProps {
 }
 
 export default function Login({ setIsLogin }: LoginProps) {
+    const [inputUserName, setInputUserName] = useState('');
+    const { position, trackPos } = useDraggable({ x: 0, y: 0 });
     const dispatch = useDispatch();
-    const [position, setPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
 
-    const trackPos: DraggableEventHandler = (e, data) => {
-        setPosition({ x: data.x, y: data.y });
+    const onInputUserNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setUserName(e.target.value);
     };
 
     const onSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const inputValue = (e.target as HTMLFormElement).elements.namedItem('userName') as HTMLInputElement;
-        dispatch(setUserName(inputValue.value));
+        dispatch(setUserName(inputUserName));
         setIsLogin(true);
     };
 
     return (
         <Draggable handle=".title-bar" onDrag={trackPos}>
-            <Window className="window" style={{ transform: `translate(${position.x}px, ${position.y}px)` }}>
+            <Window className="window">
                 <LoginHeader className="title-bar">
                     <div className="title-bar-text">Enter User's Name</div>
                     <div>
@@ -102,6 +103,7 @@ export default function Login({ setIsLogin }: LoginProps) {
                             <u>U</u>ser name
                         </label>
                         <input
+                            onChange={onInputUserNameChange}
                             type="text"
                             id="name"
                             name="userName"
