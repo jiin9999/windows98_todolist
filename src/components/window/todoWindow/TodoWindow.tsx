@@ -5,7 +5,6 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../../../firebase-config';
 import { useSelector } from 'react-redux';
 import { selectUserName } from '../../../store/userSlice';
-
 import {
     Window,
     WindowHeader,

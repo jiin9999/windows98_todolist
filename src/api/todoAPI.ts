@@ -1,46 +1,19 @@
-export const API_URL = 'http://localhost:3001/api/todos';
-import axios from 'axios';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { db } from '../firebase-config';
+import { useSelector } from 'react-redux';
+import { selectUserName } from '../store/userSlice';
 
-// Fetch todos from the server
-export const fetchTodos = async (): Promise<string[]> => {
-    try {
-        const response = await axios.get<string[]>(API_URL);
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching todos:', error);
-        return [];
-    }
-};
+const userName = useSelector(selectUserName);
+const docRef = doc(db, 'todos', userName);
 
-// Add todo to the server
-export const addTodo = async (text: string): Promise<{ message: string; data: string } | undefined> => {
-    try {
-        const response = await axios.post<{ message: string; data: string }>(API_URL, { text });
-        return response.data;
-    } catch (error) {
-        console.error('Error adding todo:', error);
-    }
-};
-
-// Update todo on the server
-export const updateTodo = async (
-    index: number,
-    text: string,
-): Promise<{ message: string; data: string } | undefined> => {
-    try {
-        const response = await axios.put<{ message: string; data: string }>(`${API_URL}/${index}`, { text });
-        return response.data;
-    } catch (error) {
-        console.error('Error updating todo:', error);
-    }
-};
-
-// Delete todo from the server
-export const deleteTodo = async (index: number): Promise<{ message: string } | undefined> => {
-    try {
-        const response = await axios.delete<{ message: string }>(`${API_URL}/${index}`);
-        return response.data;
-    } catch (error) {
-        console.error('Error deleting todo:', error);
+const callTodos = async (userName: string) => {
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        const data = docSnap.data();
+        return data.list;
+    } else {
+        const newTodoList = { list: [] };
+        await setDoc(docRef, newTodoList);
+        return newTodoList.list;
     }
 };
