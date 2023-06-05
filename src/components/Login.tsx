@@ -66,11 +66,11 @@ export interface LoginProps {
 
 export default function Login({ setIsLogin }: LoginProps) {
     const [inputUserName, setInputUserName] = useState('');
-    const { position, trackPos } = useDraggable({ x: 0, y: 0 });
+    const { trackPos } = useDraggable({ x: 0, y: 0 });
     const dispatch = useDispatch();
 
     const onInputUserNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setUserName(e.target.value);
+        setInputUserName(e.target.value);
     };
 
     const onSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {

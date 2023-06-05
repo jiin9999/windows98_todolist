@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import MyComputer from './icon/MyComputer';
 import MyComputerWindow from './window/MyComputerWindow';

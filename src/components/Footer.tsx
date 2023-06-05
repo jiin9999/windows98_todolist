@@ -52,9 +52,9 @@ const TimeBar = styled.div`
 export default function Footer() {
     const [date, setDate] = useState(() => new Date());
 
+    // 컴포넌트가 언마운트 되지 않으므로 clearInterval 생략
     useEffect(() => {
-        const timeId = setInterval(() => setDate(new Date()), 60 * 1000);
-        return () => clearInterval(timeId);
+        setInterval(() => setDate(new Date()), 60 * 1000);
     }, []);
 
     const hour = date.getHours();

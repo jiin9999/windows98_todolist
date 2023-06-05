@@ -57,9 +57,11 @@ export default function TodoWindow({ setVisibleTodo }: TodoWindowProps) {
     };
 
     useEffect(() => {
-        (async () => {
-            setTodos(await callTodos(userName));
-        })();
+        // (async () => {
+        //     setTodos(await callTodos(userName));
+        // })();
+
+        callTodos(userName).then(setTodos);
     }, []);
 
     const handleUpdateClick = (index: number) => {

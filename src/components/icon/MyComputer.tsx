@@ -1,32 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
+import { Box, Icon, Name } from './iconStyle';
 
 interface MyComputerProps {
     setVisibleMyComputer: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Box = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100px;
-    height: 100px;
-    cursor: pointer;
-`;
-
-const Icon = styled.img`
-    width: 50px;
-    height: 50px;
-`;
-
-const Name = styled.span`
-    color: white;
-    font-weight: 600;
-    font-size: 14px;
-`;
-
-const MyComputer: React.FC<MyComputerProps> = ({ setVisibleMyComputer }) => {
+export default function MyComputer({ setVisibleMyComputer }: MyComputerProps) {
     const openWindow = (): void => {
         setVisibleMyComputer(true);
     };
@@ -37,6 +15,4 @@ const MyComputer: React.FC<MyComputerProps> = ({ setVisibleMyComputer }) => {
             <Name>Computer</Name>
         </Box>
     );
-};
-
-export default MyComputer;
+}

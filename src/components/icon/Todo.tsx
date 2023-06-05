@@ -1,32 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
-
-const Box = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100px;
-    height: 100px;
-    cursor: pointer;
-`;
-
-const Icon = styled.img`
-    width: 50px;
-    height: 50px;
-`;
-
-const Name = styled.span`
-    color: white;
-    font-weight: 600;
-    font-size: 14px;
-`;
+import { Box, Icon, Name } from './iconStyle';
 
 interface TodoProps {
     setVisibleTodo: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Todo: React.FC<TodoProps> = ({ setVisibleTodo }) => {
+export default function Todo({ setVisibleTodo }: TodoProps) {
     const openWindow = () => {
         setVisibleTodo(true);
     };
@@ -37,6 +15,4 @@ const Todo: React.FC<TodoProps> = ({ setVisibleTodo }) => {
             <Name>Todo</Name>
         </Box>
     );
-};
-
-export default Todo;
+}
