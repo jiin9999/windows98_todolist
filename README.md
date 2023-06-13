@@ -1,5 +1,7 @@
 # Windows98 Todo-List
 
+![로그인](https://velog.velcdn.com/images/cji3604/post/0150ee19-b968-4133-b1a0-ff7f0b0cd755/image.gif)
+
 > 윈도우즈 98 컨셉의 투두리스트입니다.
 
 ## 배포 주소
@@ -21,8 +23,6 @@
 ---
 
 ## 화면 구성
-### Login
-![로그인](https://velog.velcdn.com/images/cji3604/post/0150ee19-b968-4133-b1a0-ff7f0b0cd755/image.gif)
 
 ### Todo
 ![투두](https://velog.velcdn.com/images/cji3604/post/713f33c6-0479-4c03-9d9f-a7f8d8c8b310/image.gif)
