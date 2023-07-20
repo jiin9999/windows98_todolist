@@ -22,6 +22,17 @@
 
 ---
 
+## 주요 기능
+### Todo
+-   FireStore를 이용해 사용자의 이름마다 다른 Todo List를 저장할 수 있도록 구현했습니다.
+
+### Weather
+-   웹 API를 사용해, 사용자의 위치를 받아 해당 위치의 날씨를 조회할 수 있도록 구현했습니다.
+
+### Redux Toolkit
+-   Redux Toolkit을 사용해 상태를 전역적으로 관리할 수 있도록 했습니다.
+---
+
 ## 화면 구성
 
 ### Todo
@@ -48,21 +59,5 @@
 ### Logout
 
 ![로그아웃](https://velog.velcdn.com/images/cji3604/post/233e3021-5535-4ef9-a968-d6ceb88ccca2/image.gif)
-
----
-
-## 주요 기능
-
-### Todo
-
--   FireStore를 이용해 사용자의 이름마다 다른 Todo List를 저장할 수 있도록 구현했습니다.
-
-### Weather
-
--   웹 API를 사용해, 사용자의 위치를 받아 해당 위치의 날씨를 조회할 수 있도록 구현했습니다.
-
-### Redux Toolkit
-
--   Redux Toolkit을 사용해 상태를 전역적으로 관리할 수 있도록 했습니다.
 
 ---
